@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Rapid Thermal Processor</title>
+</head>
+<body>
+<div id="menu-container" style="position:absolute; top: 0; right: 0;">
+    <ul id="navigationMenuTwo" class="menuheader">
+        <li><a href="function/upload" class="normalMenu">Upload recipe</a></li>
+        <li><a href="function/save" class="normalMenu">Save recipe</a></li>
+    </ul>
+</div>
+
+<div>
+    <table border="1">
+        <tr>
+            <th>step</th>
+            <th>Ramp Time (s)</th>
+            <th>Soak Level (C)</th>
+            <th>Soak Time (s)</th>
+        </tr>
+        {% for step in recipe %}
+        </tr>
+            <td>{{ step }}</td>
+            <td>{{ step.rt }}</td>
+            <td>{{ step.sl }}</td>
+            <td>{{ step.st }}</td>
+        <tr>
+        {% endfor %}
+        </tr>
+        <form  method="post" action="add/">{% csrf_token %}
+            <td><input type="submit" value="add"></td>
+            <td>{{ step.rt }}</td>
+            <td>{{ step.sl }}</td>
+            <td>{{ step.st }}</td>
+        </form>
+        <tr>
+    </table>
+</div>
+
+
+</body>
+</html>
