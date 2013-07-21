@@ -13,5 +13,4 @@ Thumbs.db
 *.pot
 *.pyc
 local_settings.py
-settings.py
 .idea

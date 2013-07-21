@@ -11,15 +11,7 @@ from django.core.context_processors import csrf
 from Tcontrol.models import Recipe, Logs
 
 def main_panel(request):
-    # r=Recipe.objects.all()
-    # if r.fetchone():
-    #     pass
-    # else:
-    #     k=Recipe()
-    #     r=[k]
-    k = Recipe()
-    r=[k]
-
+    r=Recipe.objects.all()
     c={'recipe':r}
     c.update(csrf(request))
     return render_to_response('main_panel.html', c)
