@@ -13,29 +13,31 @@
 </div>
 
 <div>
-    <table border="1">
+    <table border="1"><tbody>
+        <form  method="post" action="run/">{% csrf_token %}
         <tr>
             <th>step</th>
             <th>Ramp Time (s)</th>
             <th>Soak Level (C)</th>
             <th>Soak Time (s)</th>
         </tr>
-        {% for step in recipe %}
-        </tr>
-            <td>{{ step }}</td>
-            <td>{{ step.rt }}</td>
-            <td>{{ step.sl }}</td>
-            <td>{{ step.st }}</td>
-        <tr>
+            {{ recipes.management_form }}
+        {% for value in recipes %}
+            {{ value.id }}
+            <tr>
+                <td>{{ value.step }}</td>
+                <td>{{ value.ramp_time }}</td>
+                <td>{{ value.soak_level }}</td>
+                <td>{{ value.soak_time }}</td>
+            </tr>
         {% endfor %}
-        </tr>
-        <form  method="post" action="add/">{% csrf_token %}
-            <td><input type="submit" value="add"></td>
-            <td>{{ step.rt }}</td>
-            <td>{{ step.sl }}</td>
-            <td>{{ step.st }}</td>
-        </form>
         <tr>
+            <td><input type="submit" value="Run!"></td>
+            <td><input type="" value="Upload recipe"></td>
+            <td><input type="" value="Save recipe"></td>
+        </form>
+        </tr>
+    </tbody>
     </table>
 </div>
 
