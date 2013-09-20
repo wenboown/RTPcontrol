@@ -1,0 +1,10 @@
+from visa import *
+
+class CN8200:
+    def __init__(self):
+        self.device=instrument("COM1")
+    def read(self):
+        reading=self.device.ask("$0101R05C1")
+        return reading
+    def write(self):
+        reading=self.device.ask("$0101R05C1")
