@@ -2,7 +2,7 @@
 # Email: wenboown@gmail.com
 # basic control I/O for Omega CN8201 temperature controller
 
-import pyvisa
+import visa
 
 class CN8201(object):
     '''
@@ -13,21 +13,52 @@ class CN8201(object):
         '''
         constructor
         '''
-        self.vi=pyvisa.SerialInstrument(com_port)
+        self.vi=visa.SerialInstrument(com_port)
+        # for the device we are using, the ID = 01; for CN8200, the zone must be 01
+        self.ID_zone="0101"
 
-    def read(self, string):
-        reading=self.device.ask("$0101"+string)
-        return reading
+    def communicate(self, type, param, data):
+        string=self.ID_zone+type+param+data
+        string="$"+string+self.chesum_calculator(string)
+        response=self.vi.ask(string)
+        if response[0]!="%":
+            return "communication error"
+        elif response[5]!=type:
+            return "response type error"
+        elif response[6:8] != param:
+            return "response param error"
+        else:
+            return response
 
-    def write(self, string):
-        reading=self.device.ask("$0101"+string)
-        return reading
+    def read(self, param):
+        string=self.communicate("R",param,"")
+        if string[8] != "0":
+            return "read response error, code "+string[8]
+        elif string[5] == "R":
+            return "+" + string[9:15]
+        elif string[5] == "r":
+            return "-" + string[9:15]
+        else:
+            return "read response string error"
+
+    def write(self, param, data):
+        if data[0] == "-":
+            string=self.communicate("w", param, data[1:7])
+        else:
+            string=self.communicate("W", param, data[1:7])
+        return string[8]
+
+    def auxiliary(self, param, data):
+        return "function under developing"
 
     def set_temperature(self, set_point):
+        return ""
 
     def read_temperature(self):
+        return ""
 
     def set_recipe(self):
+        return ""
 
     def chesum_calculator(self, str):
         '''
