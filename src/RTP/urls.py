@@ -9,8 +9,10 @@ from Tcontrol import views
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', views.main_panel, name='main_panel'),
-    url(r'^add/', views.add, name='add'),
+    #url(r'^add/', views.add, name='add'),
     url(r'^run/', views.run, name='run'),
+    url(r'^standby/', views.standby, name='standby'),
+    url(r'^operate/', views.operate, name='operate'),
     # url(r'^$', 'RTP.views.home', name='home'),
     # url(r'^RTP/', include('RTP.foo.urls')),
 

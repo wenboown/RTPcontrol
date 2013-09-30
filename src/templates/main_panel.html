@@ -9,6 +9,8 @@
     <ul id="navigationMenuTwo" class="menuheader">
         <li><a href="function/upload" class="normalMenu">Upload recipe</a></li>
         <li><a href="function/save" class="normalMenu">Save recipe</a></li>
+        <li><a href="/standby" class="normalMenu">Standby</a></li>
+        <li><a href="/operate" class="normalMenu">Operate</a></li>
     </ul>
 </div>
 
@@ -17,9 +19,9 @@
         <form  method="post" action="run/">{% csrf_token %}
         <tr>
             <th>step</th>
-            <th>Ramp Time (s)</th>
+            <th>Ramp Time (min)</th>
             <th>Soak Level (C)</th>
-            <th>Soak Time (s)</th>
+            <th>Soak Time (min)</th>
         </tr>
             {{ recipes.management_form }}
         {% for value in recipes %}
