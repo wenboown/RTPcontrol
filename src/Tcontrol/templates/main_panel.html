@@ -4,8 +4,78 @@
 
 {% block scripts %}
 
-    <script type="text/javascript">
+    <style>
+        body { font-size: 62.5%; }
+        label, input { display:block; }
+        input.text { margin-bottom:12px; width:95%; padding: .4em; }
+        fieldset { padding:0; border:0; margin-top:25px; }
+        h1 { font-size: 1.2em; margin: .6em 0; }
+        div#users-contain { width: 350px; margin: 20px 0; }
+        div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+        div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+        .ui-dialog .ui-state-error { padding: .3em; }
+        .validateTips { border: 1px solid transparent; padding: 0.3em; }
+    </style>
+    <script>
+        $(function() {
+            var allFields = $( [] ){% for a in log.fields %}
+                            .add( $("#id_{{ a }}") )
+                    {% endfor %},
+                    tips = $( ".validateTips" );
 
+            function updateTips( t ) {
+                tips
+                        .text( t )
+                        .addClass( "ui-state-highlight" );
+                setTimeout(function() {
+                    tips.removeClass( "ui-state-highlight", 1500 );
+                }, 500 );
+            }
+
+            function checkLength( o, n, min, max ) {
+                if ( o.val().length > max || o.val().length < min ) {
+                    o.addClass( "ui-state-error" );
+                    updateTips( "Length of " + n + " must be between " +
+                            min + " and " + max + "." );
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
+            $( "#run-recipe" ).dialog({
+                autoOpen: false,
+                height: 300,
+                width: 350,
+                modal: true,
+                buttons: {
+                    "Run": function() {
+                        var bValid = true;
+                        allFields.removeClass( "ui-state-error" );
+
+                        {% for field in log.fields %}
+                            bValid = bValid && checkLength( $("#id_{{ field }}"), "{{ field }}", 1, 128 );
+                        {% endfor %}
+
+                        if ( bValid ) {
+                            Dajaxice.Tcontrol.views.user_log(Dajax.process,{'form':$('#my_form').serialize(true)})
+                            //$( this ).dialog( "close" );
+                        }
+                    },
+                    Cancel: function() {
+                        $( this ).dialog( "close" );
+                    }
+                },
+                close: function() {
+                    allFields.removeClass( "ui-state-error" );
+                }
+            });
+            $( "#run" )
+                    .button()
+                    .click(function() {
+                        $( "#run-recipe" ).dialog( "open" );
+                    });
+        });
     </script>
 {% endblock %}
 
@@ -18,7 +88,7 @@
 
 {% block content %}
     <table border="1"><tbody>
-        <form  method="post" action="run/">{% csrf_token %}
+        <form id="recipe-form" method="post" action="run/">{% csrf_token %}
         <tr>
             <th>step</th>
             <th>Ramp Time (min)</th>
@@ -36,12 +106,21 @@
             </tr>
         {% endfor %}
         <tr>
-            <td><input type="submit" value="Run!"></td>
+            <td><input id="run" type="button" value="Run!"></td>
             <td><input type="" value="Upload recipe"></td>
             <td><input type="" value="Save recipe"></td>
         </form>
         </tr>
     </tbody>
     </table>
+
+    <div id="run-recipe" title="Run current recipe">
+        <p class="validateTips">All fields are required.</p>
+        <form action="" method="post" id="my_form" accept-charset="utf-8">
+            <fieldset>
+                {{ log }}
+            </fieldset>
+        </form>
+    </div>
 
 {% endblock %}
