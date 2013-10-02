@@ -1,20 +1,22 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Rapid Thermal Processor</title>
-</head>
-<body>
-<div id="menu-container" style="position:absolute; top: 0; right: 0;">
-    <ul id="navigationMenuTwo" class="menuheader">
-        <li><a href="function/upload" class="normalMenu">Upload recipe</a></li>
-        <li><a href="function/save" class="normalMenu">Save recipe</a></li>
-        <li><a href="/standby" class="normalMenu">Standby</a></li>
-        <li><a href="/operate" class="normalMenu">Operate</a></li>
-    </ul>
-</div>
+{% extends "base_template.html" %}
 
-<div>
+{% block title %}Rapid Thermal Processor{% endblock %}
+
+{% block scripts %}
+
+    <script type="text/javascript">
+
+    </script>
+{% endblock %}
+
+{% block bodymenu %}
+    <li><a href="function/upload" class="normalMenu">Upload recipe</a></li>
+    <li><a href="function/save" class="normalMenu">Save recipe</a></li>
+    <li><a href="/standby" class="normalMenu">Standby</a></li>
+    <li><a href="/operate" class="normalMenu">Operate</a></li>
+{% endblock %}
+
+{% block content %}
     <table border="1"><tbody>
         <form  method="post" action="run/">{% csrf_token %}
         <tr>
@@ -41,8 +43,5 @@
         </tr>
     </tbody>
     </table>
-</div>
 
-
-</body>
-</html>
+{% endblock %}

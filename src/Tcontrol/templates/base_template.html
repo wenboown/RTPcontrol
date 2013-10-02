@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% load dajaxice_templatetags %}
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    <script type="text/javascript" src="/media/js/jquery-1.7.1.min.js"></script>
+    {% dajaxice_js_import %}
+
+    {% block scripts %}{% endblock %}
+</head>
+
+<body>
+<div id="menu-container" style="position:absolute; top: 0; right: 0;">
+    <ul id="navigationMenu" class="menuheader">
+        {% block bodymenu %}
+        {% endblock %}
+    </ul>
+</div>
+
+<div class="container" {% block containerstyle %}{% endblock %}>
+    {% block content %}{% endblock %}
+</div>
+</body>
+
+</html>
