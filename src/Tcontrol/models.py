@@ -15,6 +15,8 @@ class Recipe(models.Model):
 class Logs(models.Model):
     time_stamp = models.DateTimeField(default = datetime.datetime.today())
     user = models.CharField(max_length=128)
+    note = models.CharField(max_length=128)
     class Meta:
+        ordering = ["time_stamp"]
         app_label = 'Tcontrol'
 

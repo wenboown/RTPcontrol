@@ -6,6 +6,6 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.forms.widgets import DateInput, HiddenInput
 
 
-class RecipeForm(ModelForm):
+class LogForm(ModelForm):
     class Meta:
-        model = Recipe
+        model = Logs
